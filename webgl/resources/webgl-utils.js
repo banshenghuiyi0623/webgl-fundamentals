@@ -1128,6 +1128,7 @@
     var indices = arrays.indices;
     if (indices) {
       indices = makeTypedArray(indices, "indices");
+      bufferInfo.elementType = getGLTypeForTypedArray(gl, indices);
       bufferInfo.indices = createBufferFromTypedArray(gl, indices, gl.ELEMENT_ARRAY_BUFFER);
       bufferInfo.numElements = indices.length;
     } else {
@@ -1199,7 +1200,7 @@
     var numElements = count === undefined ? bufferInfo.numElements : count;
     offset = offset === undefined ? offset : 0;
     if (indices) {
-      gl.drawElements(primitiveType, numElements, gl.UNSIGNED_SHORT, offset);
+      gl.drawElements(primitiveType, numElements, bufferInfo.elementType || gl.UNSIGNED_SHORT, offset);
     } else {
       gl.drawArrays(primitiveType, offset, numElements);
     }
